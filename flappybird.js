@@ -66,7 +66,6 @@ window.onload = function(){
 
      requestAnimationFrame(update);
      document.addEventListener("keydown", moveBird);
-     document.addEventListener("keydown", moveBird);
 
 // Touch control for mobile
 document.addEventListener("touchstart", function(e){
@@ -197,20 +196,21 @@ function placePipes(){
 }
 
 function moveBird(e) {
-  
-   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"){
-
     let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let jumpStrength = isMobile ? -4 : -6;
 
+    if (e.code !== "Space" && e.code !== "ArrowUp" && e.code !== "KeyX") {
+        return;
+    }
+
     if (gameState === "start") {
-        gameState = "playing"; // start the game
-        velocityY = jumpStrength; // first jump
+        gameState = "playing";
+        velocityY = jumpStrength;
         pipeInterval = setInterval(placePipes, 1500);
         return;
     }
 
-    if (gameOver){
+    if (gameOver) {
         clearInterval(pipeInterval);
         pipeArray = [];
         bird.y = birdY;
@@ -220,25 +220,9 @@ function moveBird(e) {
         return;
     }
 
-    // normal jump
     velocityY = jumpStrength;
 }
 
-
-
-       if (gameOver){
-    clearInterval(pipeInterval); // stop spawning pipes
-    pipeArray = [];
-    bird.y = birdY;
-    score = 0;
-    gameOver = false;
-    gameState = "start"; // show start screen again
-    return;
-}
-
-        // normal jump
-        velocityY = -6;
-    }
 
 function detectCollision(a,b) {
     return a.x < b.x + b.width &&
