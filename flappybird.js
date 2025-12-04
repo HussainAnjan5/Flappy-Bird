@@ -76,7 +76,7 @@ function update(){
         context.fillStyle = "white";
         context.font = "30px Arial";
         context.textAlign = "center";
-        context.fillText("FLAPPY BIRD", boardWidth/2, boardHeight/2 - 40);
+        context.fillText("Ali RAZA", boardWidth/2, boardHeight/2 - 40);
         context.font = "20px Arial";
         context.fillText("Press Space or Up Arrow to Start", boardWidth/2, boardHeight/2 + 10);
         return;
