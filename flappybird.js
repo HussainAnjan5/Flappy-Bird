@@ -198,17 +198,32 @@ function placePipes(){
 
 function moveBird(e) {
   
-    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"){
+   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"){
 
-        if (gameState === "start") {
-    gameState = "playing"; // start the game
-    velocityY = -6;        // first jump
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    let jumpStrength = isMobile ? -4 : -6;
 
-    // Start generating pipes only now
-    pipeInterval = setInterval(placePipes, 1500);
+    if (gameState === "start") {
+        gameState = "playing"; // start the game
+        velocityY = jumpStrength; // first jump
+        pipeInterval = setInterval(placePipes, 1500);
+        return;
+    }
 
-    return;
+    if (gameOver){
+        clearInterval(pipeInterval);
+        pipeArray = [];
+        bird.y = birdY;
+        score = 0;
+        gameOver = false;
+        gameState = "start";
+        return;
+    }
+
+    // normal jump
+    velocityY = jumpStrength;
 }
+
 
 
        if (gameOver){
@@ -224,8 +239,6 @@ function moveBird(e) {
         // normal jump
         velocityY = -6;
     }
-}
-
 
 function detectCollision(a,b) {
     return a.x < b.x + b.width &&
