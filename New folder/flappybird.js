@@ -3,6 +3,9 @@ let board;
 let boardWidth = 360;
 let boardHeight = 640;
 let context;
+let pipeInterval; // will hold the interval ID for generating pipes
+let highScore = localStorage.getItem("flappyHighScore") || 0;
+
 
 // bird
 let birdWidth= 34;
@@ -62,8 +65,15 @@ window.onload = function(){
      bottomPipeImg.src ="./bottompipe.png"
 
      requestAnimationFrame(update);
-     setInterval(placePipes, 1500);
      document.addEventListener("keydown", moveBird);
+     document.addEventListener("keydown", moveBird);
+
+// Touch control for mobile
+document.addEventListener("touchstart", function(e){
+    e.preventDefault(); // prevent scrolling on touch
+    moveBird({ code: "Space" }); // simulate Space key press
+});
+
 }
 
 
@@ -121,6 +131,12 @@ context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
         if (detectCollision(bird, pipe)){ 
             gameOver = true; 
+            
+            if (score > highScore) {
+    highScore = Math.floor(score); 
+    localStorage.setItem("flappyHighScore", highScore);
+}
+
         }
     }
 
@@ -129,14 +145,23 @@ context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
         pipeArray.shift();
     }
 
-    // score display
-    context.fillStyle = "white";    
-    context.font = "40px Arial"; 
-    context.textAlign = "left";
-    context.fillText(Math.floor(score), 10 , 50);
-    context.strokeStyle = "black";
-    context.lineWidth = 2;
-    context.strokeText(Math.floor(score), 10, 50);
+    // current score
+context.fillStyle = "white";
+context.font = "40px Arial";
+context.textAlign = "left";
+context.fillText(Math.floor(score), 10, 50);
+context.strokeStyle = "black";
+context.lineWidth = 2;
+context.strokeText(Math.floor(score), 10, 50);
+
+// high score
+context.fillStyle = "yellow";
+context.font = "20px Arial";
+context.fillText("High: " + highScore, 10, 80);
+context.strokeStyle = "black";
+context.lineWidth = 1;
+context.strokeText("High: " + highScore, 10, 80);
+
 }
 
 
@@ -176,19 +201,25 @@ function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"){
 
         if (gameState === "start") {
-            gameState = "playing"; // start the game
-            velocityY = -6;        // first jump
-            return;
-        }
+    gameState = "playing"; // start the game
+    velocityY = -6;        // first jump
 
-        if (gameOver){
-            bird.y = birdY;
-            pipeArray = [];
-            score = 0;
-            gameOver = false;
-            gameState = "start"; // show start screen again
-            return;
-        }
+    // Start generating pipes only now
+    pipeInterval = setInterval(placePipes, 1500);
+
+    return;
+}
+
+
+       if (gameOver){
+    clearInterval(pipeInterval); // stop spawning pipes
+    pipeArray = [];
+    bird.y = birdY;
+    score = 0;
+    gameOver = false;
+    gameState = "start"; // show start screen again
+    return;
+}
 
         // normal jump
         velocityY = -6;

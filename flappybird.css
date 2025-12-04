@@ -1,15 +1,10 @@
-body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden; /* prevent scrolling */
-    touch-action: manipulation; /* prevent pinch zoom on mobile */
+body{
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
 
-    /* Background image */
-    background-image: url('flappybirdbg.png'); /* replace with your image path */
-    background-size: cover;      /* scale image to cover the screen */
-    background-position: center; /* center the image */
-    background-repeat: no-repeat;
+}
+#board {
+    background-image: url(./flappybirdbg.png);
+
+
 }

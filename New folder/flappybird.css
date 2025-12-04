@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* prevent scrolling */
+    touch-action: manipulation; /* prevent pinch zoom on mobile */
+
+    /* Background image */
+    background-image: url('flappybirdbg.png'); /* replace with your image path */
+    background-size: cover;      /* scale image to cover the screen */
+    background-position: center; /* center the image */
+    background-repeat: no-repeat;
+}
