@@ -35,7 +35,7 @@ let bottomPipeImg;
 // game physics
 let velocityX= -2; 
 let velocityY= 0;
-let gravity= 0.4;
+let gravity = window.innerWidth < 600 ? 0.25 : 0.4;
 
 let gameOver = false;
 let score = 0;
@@ -197,7 +197,7 @@ function placePipes(){
 
 function moveBird(e) {
     let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    let jumpStrength = isMobile ? -4 : -6;
+let jumpStrength = isMobile ? -5 : -6;
 
     if (e.code !== "Space" && e.code !== "ArrowUp" && e.code !== "KeyX") {
         return;
